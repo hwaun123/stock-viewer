@@ -1,5 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Main from "./Main";
 function App() {
-  return <div>주식 딲대</div>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
