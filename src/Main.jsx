@@ -1,48 +1,65 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useState } from "react";
 const Main = () => {
+  const SECRET_KEY =
+    "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==";
   const [stock, setStock] = useState();
-  const params = {
-    serviceKey:
-      "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==",
-    resultType: "json",
-  };
-  axios
-    .get(
-      "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
-      { params }
-    )
-    .then((Response) => {
-      setStock(Response.data);
-    })
-    .catch((Error) => {
-      console.log(Error);
-    });
 
-  const [stockName, setStockName] = useState("");
-  const [searchData, setSearchData] = useState();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const searchParams = {
-      serviceKey:
-        "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==",
-      resultType: "json",
-      itmsNm: stockName,
-    };
+  useEffect(() => {
+    setIsLoading(true);
+
     axios
       .get(
         "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
-        { searchParams }
+        {
+          params: {
+            serviceKey: SECRET_KEY,
+            resultType: "json",
+          },
+        }
       )
       .then((Response) => {
-        setSearchData(Response.data);
-        console.log(searchData);
+        setStock(Response.data.response.body.items.item);
+      })
+      .catch((Error) => {
+        console.log(Error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  const [stockName, setStockName] = useState("");
+  const [searchStockData, setSearchStockData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .get(
+        "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
+        {
+          params: {
+            serviceKey: SECRET_KEY,
+            resultType: "json",
+            itmsNm: stockName,
+          },
+        }
+      )
+      .then((Response) => {
+        setSearchStockData(Response.data.response.body.items.item);
       })
       .catch((Error) => {
         console.log(Error);
       });
   };
-  if (!stock) {
+
+  console.log(searchStockData);
+
+  if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
+
+  if (!isLoading && !stock) {
     return <div>데이터를 가져올 수 없습니다</div>;
   }
   return (
@@ -56,7 +73,7 @@ const Main = () => {
         <button type="submit">검색</button>
       </form>
       <ul>
-        {stock.response.body.items.item.map((prev) => {
+        {stock.map((prev) => {
           return <li>{prev.itmsNm}</li>;
         })}
       </ul>
