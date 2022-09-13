@@ -13,9 +13,7 @@ const Main = () => {
       { params }
     )
     .then((Response) => {
-      //   console.log(Response.data);
       setStock(Response.data);
-      //   console.log(stock);
     })
     .catch((Error) => {
       console.log(Error);
@@ -29,7 +27,7 @@ const Main = () => {
       serviceKey:
         "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==",
       resultType: "json",
-      itmsNm: { stockName },
+      itmsNm: stockName,
     };
     axios
       .get(
@@ -37,7 +35,6 @@ const Main = () => {
         { searchParams }
       )
       .then((Response) => {
-        //   console.log(Response.data);
         setSearchData(Response.data);
         console.log(searchData);
       })
