@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSearch } from "./Contexts/SearchStockContext";
 const Main = () => {
   const SECRET_KEY =
     "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==";
@@ -31,8 +33,10 @@ const Main = () => {
   }, []);
 
   const [stockName, setStockName] = useState("");
-  const [searchStockData, setSearchStockData] = useState();
+  const [searchStockData, setSearchStockData] = useSearch();
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,7 +52,7 @@ const Main = () => {
         }
       )
       .then((Response) => {
-        setSearchStockData(Response.data.response.body.items.item);
+        navigate(`/stock/${Response.data.response.body.items.item[0].srtnCd}`);
       })
       .catch((Error) => {
         console.log(Error);

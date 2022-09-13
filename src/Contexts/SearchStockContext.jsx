@@ -2,13 +2,13 @@ import { createContext, useContext, useState } from "react";
 
 const searchStockContext = createContext(null);
 
-const searchProvider = ({ children }) => {
-  const [searchState, setSearchState] = useState;
+const SearchProvider = ({ children }) => {
+  const [searchState, setSearchState] = useState();
 
   return (
-    <searchStockContext.searchProvider value={searchState}>
+    <searchStockContext.Provider value={[searchState, setSearchState]}>
       {children}
-    </searchStockContext.searchProvider>
+    </searchStockContext.Provider>
   );
 };
 
@@ -18,4 +18,4 @@ export const useSearch = () => {
   return contextData;
 };
 
-export default searchProvider;
+export default SearchProvider;
