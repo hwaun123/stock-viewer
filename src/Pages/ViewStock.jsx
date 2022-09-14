@@ -1,11 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSearch } from "./Contexts/SearchStockContext";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+// 그래프 만들고 CSS
+// ...[1,2,3] => 1,2,3
+// [...[1,2,3]] => [1,2,3]
+// [] === [] => false
+// [1,2,3] === [1,2,3] => false
+// arr = [1,2,3]
+// [...arr] === arr =>
 
 const ViewStock = () => {
   //   const [searchStockData] = useSearch();
   const [stockData, setStockData] = useState();
+  const reversedStockData = [...stockData].reverse();
   const param = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +60,41 @@ const ViewStock = () => {
   }
 
   console.log(stockData);
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Chart.js Line Chart",
+      },
+    },
+  };
+
+  const data = {
+    labels: reversedStockData.map((m) => m.basDt),
+    datasets: [
+      {
+        label: stockData[0].itmsNm,
+        data: reversedStockData.map((m, index) => m.clpr),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+
   return (
     <>
       {stockData.map((item) => (
@@ -59,13 +112,39 @@ const ViewStock = () => {
           <li>
             {item.basDt}일자 최저가 {item.lopr}
           </li>
+          <li>최종가 {item.clpr}</li>
           <li>
-            전일 대비 등락 : {item.vs} 전일 대비 등락비 : {item.fltRt}
+            전일 대비 등락 : {item.vs} 전일 대비 등락비 : {item.fltRt} :
           </li>
+          <Line options={options} data={data} />
         </>
       ))}
     </>
   );
 };
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "Chart.js Line Chart",
+    },
+  },
+};
+
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
 export default ViewStock;

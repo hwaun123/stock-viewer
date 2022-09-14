@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearch } from "./Contexts/SearchStockContext";
+import { Link } from "react-router-dom";
 const Main = () => {
   const SECRET_KEY =
     "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==";
@@ -33,7 +33,6 @@ const Main = () => {
   }, []);
 
   const [stockName, setStockName] = useState("");
-  const [searchStockData, setSearchStockData] = useSearch();
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -59,8 +58,6 @@ const Main = () => {
       });
   };
 
-  console.log(searchStockData);
-
   if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
 
   if (!isLoading && !stock) {
@@ -78,7 +75,13 @@ const Main = () => {
       </form>
       <ul>
         {stock.map((prev) => {
-          return <li>{prev.itmsNm}</li>;
+          return (
+            <>
+              <Link to={`/stock/${prev.srtnCd}`} params={prev.srtnCd}>
+                <li>{prev.itmsNm}</li>
+              </Link>
+            </>
+          );
         })}
       </ul>
     </>
