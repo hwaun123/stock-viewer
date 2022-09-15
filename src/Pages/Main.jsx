@@ -54,7 +54,7 @@ const Main = () => {
   return (
     <main className="container">
       <header className="stock-header">
-        <h1 className="stock-title">stockviewer.kro.kr</h1>
+        <h1 className="stock-title">stockviewer</h1>
         <h2 className="stock-subTitle">궁금했던 주식정보, StockViewer에서</h2>
       </header>
 
