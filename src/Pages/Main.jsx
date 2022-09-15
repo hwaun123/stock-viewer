@@ -16,12 +16,15 @@ const Main = () => {
     }
   }, [stockName]);
 
+  const [ifLoading, setIfLoading] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     setStock([]);
     const arrSrtnCd = [];
 
+    setIfLoading(true);
     axios
       .get(
         "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
@@ -41,6 +44,7 @@ const Main = () => {
             setStock((prev) => [...prev, item]);
           }
         });
+        setIfLoading(false);
       })
       .catch((Error) => {
         console.log(Error);
@@ -63,21 +67,24 @@ const Main = () => {
         ></input>
         <button type="submit">검색</button>
       </form>
-      <ul className="stock-list">
-        {stock.map((prev) => {
-          return (
-            <>
+      {ifLoading ? (
+        <div className="loading-box">로딩중입니다...</div>
+      ) : (
+        <ul className="stock-list">
+          {stock.map((prev) => {
+            return (
               <Link
+                key={prev.srtnCd}
                 to={`/stock/${prev.srtnCd}`}
                 params={prev.srtnCd}
                 className="stock-item"
               >
                 <li>{prev.itmsNm}</li>
               </Link>
-            </>
-          );
-        })}
-      </ul>
+            );
+          })}
+        </ul>
+      )}
     </main>
   );
 };

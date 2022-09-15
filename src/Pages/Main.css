@@ -83,3 +83,19 @@
 .stock-item:hover {
     filter: brightness(80%);
 }
+
+.loading-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    width: 80%;
+    padding: 1rem;
+    color: white;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(30px);
+    margin: 0 auto;
+}
