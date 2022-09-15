@@ -6,39 +6,18 @@ import { Link } from "react-router-dom";
 const Main = () => {
   const SECRET_KEY =
     "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==";
-  const [stock, setStock] = useState();
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    axios
-      .get(
-        "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
-        {
-          params: {
-            serviceKey: SECRET_KEY,
-            resultType: "json",
-          },
-        }
-      )
-      .then((Response) => {
-        setStock(Response.data.response.body.items.item);
-      })
-      .catch((Error) => {
-        console.log(Error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  const [stock, setStock] = useState([]);
 
   const [stockName, setStockName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const arrSrtnCd = [];
+
     axios
       .get(
         "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
@@ -46,23 +25,63 @@ const Main = () => {
           params: {
             serviceKey: SECRET_KEY,
             resultType: "json",
-            itmsNm: stockName,
+            likeItmsNm: stockName,
+            numOfRows: 30,
           },
         }
       )
       .then((Response) => {
-        navigate(`/stock/${Response.data.response.body.items.item[0].srtnCd}`);
+        Response.data.response.body.items.item.forEach((item) => {
+          if (!arrSrtnCd.includes(item.srtnCd)) {
+            arrSrtnCd.push(item.srtnCd);
+            setStock((prev) => [...prev, item]);
+          }
+        });
       })
       .catch((Error) => {
         console.log(Error);
       });
   };
 
-  if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
+  console.log(stock);
+  // useEffect(() => {
+  //   const arrSrtnCd = [];
+  //   setIsLoading(true);
 
-  if (!isLoading && !stock) {
-    return <div>데이터를 가져올 수 없습니다</div>;
-  }
+  //   axios
+  //     .get(
+  //       "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
+  //       {
+  //         params: {
+  //           serviceKey: SECRET_KEY,
+  //           resultType: "json",
+  //           likeItmsNm: "삼성",
+  //           numOfRows: 30,
+  //         },
+  //       }
+  //     )
+  //     .then((Response) => {
+  //       console.log("Run");
+  //       Response.data.response.body.items.item.forEach((item) => {
+  //         if (!arrSrtnCd.includes(item.srtnCd)) {
+  //           arrSrtnCd.push(item.srtnCd);
+  //           setStock((prev) => [...prev, item]);
+  //         }
+  //       });
+  //     })
+  //     .catch((Error) => {
+  //       console.log(Error);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, []);
+
+  // if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
+
+  // if (!isLoading && !stock) {
+  //   return <div>데이터를 가져올 수 없습니다</div>;
+  // }
   return (
     <>
       <form onSubmit={handleSubmit}>

@@ -23,7 +23,6 @@ import { Line } from "react-chartjs-2";
 const ViewStock = () => {
   //   const [searchStockData] = useSearch();
   const [stockData, setStockData] = useState();
-  const reversedStockData = [...stockData].reverse();
   const param = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,6 +81,8 @@ const ViewStock = () => {
       },
     },
   };
+
+  const reversedStockData = [...stockData].reverse();
 
   const data = {
     labels: reversedStockData.map((m) => m.basDt),
