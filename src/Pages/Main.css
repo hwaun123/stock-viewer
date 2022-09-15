@@ -1,0 +1,63 @@
+.container {
+    
+}
+
+.stock-form {
+    width: 80%;
+    transform: translate(0%, -50%);
+    border-radius: 10px;
+    margin-top: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: cadetblue;
+    padding: 1rem;
+    display: flex;
+}
+
+.stock-form > input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: cadetblue;
+    color: blueviolet;
+    font-size: 2rem;
+}
+
+.stock-form > button {
+    width: 10%;
+    border: none;
+    outline: none;
+    background-color: cadetblue;
+    color: blueviolet;   
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.stock-list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stock-item {
+    width: 80%;
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.stock-item:hover {
+    filter: brightness(80%);
+}
+
+.stock-item:first-child {
+    border-radius: 10px 10px 0 0 ;
+}
+
+.stock-item:last-child {
+    border-radius: 0 0 10px 10px;
+}

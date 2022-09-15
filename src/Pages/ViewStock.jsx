@@ -12,13 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-// 그래프 만들고 CSS
-// ...[1,2,3] => 1,2,3
-// [...[1,2,3]] => [1,2,3]
-// [] === [] => false
-// [1,2,3] === [1,2,3] => false
-// arr = [1,2,3]
-// [...arr] === arr =>
 
 const ViewStock = () => {
   //   const [searchStockData] = useSearch();
@@ -95,31 +88,27 @@ const ViewStock = () => {
       },
     ],
   };
-
+  const firstData = stockData[0];
   return (
     <>
-      {stockData.map((item) => (
-        <>
-          <li>{item.itmsNm}</li>
-          <li>종목 코드 : {item.isinCd}</li>
-          <li>{item.basDt}</li>
-          <li>시장: {item.mrktCtg}</li>
-          <li>
-            {item.basDt}일자 시작가 {item.mkp}
-          </li>
-          <li>
-            {item.basDt}일자 최고가 {item.hipr}
-          </li>
-          <li>
-            {item.basDt}일자 최저가 {item.lopr}
-          </li>
-          <li>최종가 {item.clpr}</li>
-          <li>
-            전일 대비 등락 : {item.vs} 전일 대비 등락비 : {item.fltRt} :
-          </li>
-          <Line options={options} data={data} />
-        </>
-      ))}
+      <li>{firstData.itmsNm}</li>
+      <li>종목 코드 : {firstData.isinCd}</li>
+      <li>{firstData.basDt}</li>
+      <li>시장: {firstData.mrktCtg}</li>
+      <li>
+        {firstData.basDt}일자 시작가 {firstData.mkp}
+      </li>
+      <li>
+        {firstData.basDt}일자 최고가 {firstData.hipr}
+      </li>
+      <li>
+        {firstData.basDt}일자 최저가 {firstData.lopr}
+      </li>
+      <li>최종가 {firstData.clpr}</li>
+      <li>
+        전일 대비 등락 : {firstData.vs} 전일 대비 등락비 : {firstData.fltRt}
+      </li>
+      <Line options={options} data={data} />
     </>
   );
 };

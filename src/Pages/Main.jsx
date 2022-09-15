@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "./Main.css";
+
 const Main = () => {
   const SECRET_KEY =
     "h9vAi2Omf6fvC4lihNNGxwYyXMTz1ExFFB90tmR0nYCYJeRyRdmq67aNQaA3UmWbYPJT/R89604QOpPUfb6LPg==";
@@ -16,6 +18,7 @@ const Main = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setStock([]);
     const arrSrtnCd = [];
 
     axios
@@ -43,7 +46,6 @@ const Main = () => {
       });
   };
 
-  console.log(stock);
   // useEffect(() => {
   //   const arrSrtnCd = [];
   //   setIsLoading(true);
@@ -83,8 +85,8 @@ const Main = () => {
   //   return <div>데이터를 가져올 수 없습니다</div>;
   // }
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <div className="container">
+      <form onSubmit={handleSubmit} className="stock-form">
         <input
           type="text"
           value={stockName}
@@ -92,18 +94,22 @@ const Main = () => {
         ></input>
         <button type="submit">검색</button>
       </form>
-      <ul>
+      <ul className="stock-list">
         {stock.map((prev) => {
           return (
             <>
-              <Link to={`/stock/${prev.srtnCd}`} params={prev.srtnCd}>
+              <Link
+                to={`/stock/${prev.srtnCd}`}
+                params={prev.srtnCd}
+                className="stock-item"
+              >
                 <li>{prev.itmsNm}</li>
               </Link>
             </>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 };
 
