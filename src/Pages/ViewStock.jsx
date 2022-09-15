@@ -12,9 +12,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
+import "./ViewStock.css";
+import Loading from "./Loading";
 const ViewStock = () => {
-  //   const [searchStockData] = useSearch();
   const [stockData, setStockData] = useState();
   const param = useParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -45,13 +45,11 @@ const ViewStock = () => {
       });
   }, [param.name]);
 
-  if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
+  if (isLoading) return <Loading />;
 
   if (!isLoading && !stockData) {
     return <div>데이터를 가져올 수 없습니다</div>;
   }
-
-  console.log(stockData);
 
   ChartJS.register(
     CategoryScale,
@@ -62,18 +60,7 @@ const ViewStock = () => {
     Tooltip,
     Legend
   );
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Chart.js Line Chart",
-      },
-    },
-  };
+  // const options = ;
 
   const reversedStockData = [...stockData].reverse();
 
@@ -90,51 +77,71 @@ const ViewStock = () => {
   };
   const firstData = stockData[0];
   return (
-    <>
-      <li>{firstData.itmsNm}</li>
-      <li>종목 코드 : {firstData.isinCd}</li>
-      <li>{firstData.basDt}</li>
-      <li>시장: {firstData.mrktCtg}</li>
-      <li>
-        {firstData.basDt}일자 시작가 {firstData.mkp}
-      </li>
-      <li>
-        {firstData.basDt}일자 최고가 {firstData.hipr}
-      </li>
-      <li>
-        {firstData.basDt}일자 최저가 {firstData.lopr}
-      </li>
-      <li>최종가 {firstData.clpr}</li>
-      <li>
-        전일 대비 등락 : {firstData.vs} 전일 대비 등락비 : {firstData.fltRt}
-      </li>
-      <Line options={options} data={data} />
-    </>
+    <div className="view-container">
+      <div className="view-cards">
+        <div className="view-info card">
+          <h1 className="view-title">{firstData.itmsNm}</h1>
+          <div className="view-subTitle">
+            <h2>기준일자 : {firstData.basDt}</h2>
+            <h2>샹쟝 주식주 : {firstData.lstgStCnt}주</h2>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-item">
+            <div className="card-item-title">시장 분류</div>
+            <div className="card-item-data">{firstData.mrktCtg}</div>
+          </div>
+          <div className="card-item">
+            <div className="card-item-title">종목 코드</div>{" "}
+            <div className="card-item-data">{firstData.isinCd}</div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-item">
+            <div className="card-item-title">시작가</div>{" "}
+            <div className="card-item-data">{firstData.mkp}원</div>
+          </div>
+          <div className="card-item">
+            <div className="card-item-title">최종가</div>{" "}
+            <div className="card-item-data">{firstData.clpr}원</div>
+          </div>
+          <div className="card-item">
+            <div className="card-item-title">최고가</div>{" "}
+            <div className="card-item-data">{firstData.hipr}원</div>
+          </div>
+          <div className="card-item">
+            <div className="card-item-title">최저가</div>{" "}
+            <div className="card-item-data">{firstData.lopr}원</div>
+          </div>
+        </div>
+      </div>
+      <div className="view-grape">
+        <Line
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "최근 10일간 동향",
+              },
+            },
+            layout: {
+              padding: {
+                top: 50,
+                left: 100,
+                right: 100,
+                bottom: 50,
+              },
+            },
+          }}
+          data={data}
+        />
+      </div>
+    </div>
   );
 };
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Chart.js Line Chart",
-    },
-  },
-};
-
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
 export default ViewStock;

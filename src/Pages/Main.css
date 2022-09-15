@@ -1,15 +1,37 @@
 .container {
-    
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+	background-image: url("http://economychosun.com/query/upload/365/20200921012623_henlqvfn.jpg");
 }
 
+.stock-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+
+.stock-title{
+    padding: 5px;
+    font-size: 5rem;
+    color: #fafafa;
+    font-weight: bolder;
+}
+.stock-subTitle{
+    font-weight: bolder;
+    color: #87cefa;
+    font-size: 1.5rem;
+}
 .stock-form {
     width: 80%;
-    transform: translate(0%, -50%);
-    border-radius: 10px;
-    margin-top: 50vh;
+    /* border-radius: 10px; */
     margin-left: auto;
     margin-right: auto;
-    background-color: cadetblue;
+    border: 1px solid white;
+    background-color: rgba(0,0,0,0.1);
     padding: 1rem;
     display: flex;
 }
@@ -18,25 +40,31 @@
     width: 100%;
     border: none;
     outline: none;
-    background-color: cadetblue;
-    color: blueviolet;
+    background-color: rgba(0,0,0,0);
+    color: white;
     font-size: 2rem;
+}
+
+.stock-form > input::placeholder {
+    color: white;
 }
 
 .stock-form > button {
     width: 10%;
     border: none;
     outline: none;
-    background-color: cadetblue;
-    color: blueviolet;   
+    background-color: rgba(0,0,0,0.1);
+    color: white;   
     font-size: 2rem;
     cursor: pointer;
 }
 
 .stock-list {
     width: 100%;
+    height: 300px;
+    overflow-y: auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     font-size: 2rem;
@@ -46,18 +74,12 @@
 .stock-item {
     width: 80%;
     padding: 1rem;
-    background-color: white;
-    border: 1px solid black;
+    color: white;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(30px);
 }
 
 .stock-item:hover {
     filter: brightness(80%);
-}
-
-.stock-item:first-child {
-    border-radius: 10px 10px 0 0 ;
-}
-
-.stock-item:last-child {
-    border-radius: 0 0 10px 10px;
 }

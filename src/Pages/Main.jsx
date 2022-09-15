@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
 
@@ -11,9 +9,12 @@ const Main = () => {
   const [stock, setStock] = useState([]);
 
   const [stockName, setStockName] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!stockName) {
+      setStock([]);
+    }
+  }, [stockName]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -46,51 +47,19 @@ const Main = () => {
       });
   };
 
-  // useEffect(() => {
-  //   const arrSrtnCd = [];
-  //   setIsLoading(true);
-
-  //   axios
-  //     .get(
-  //       "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo",
-  //       {
-  //         params: {
-  //           serviceKey: SECRET_KEY,
-  //           resultType: "json",
-  //           likeItmsNm: "삼성",
-  //           numOfRows: 30,
-  //         },
-  //       }
-  //     )
-  //     .then((Response) => {
-  //       console.log("Run");
-  //       Response.data.response.body.items.item.forEach((item) => {
-  //         if (!arrSrtnCd.includes(item.srtnCd)) {
-  //           arrSrtnCd.push(item.srtnCd);
-  //           setStock((prev) => [...prev, item]);
-  //         }
-  //       });
-  //     })
-  //     .catch((Error) => {
-  //       console.log(Error);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, []);
-
-  // if (isLoading) return <div>데이터를 가져오고 있습니다.</div>;
-
-  // if (!isLoading && !stock) {
-  //   return <div>데이터를 가져올 수 없습니다</div>;
-  // }
   return (
-    <div className="container">
+    <main className="container">
+      <header className="stock-header">
+        <h1 className="stock-title">stockview.com</h1>
+        <h2 className="stock-subTitle">궁금했던 주식정보, StockView에서</h2>
+      </header>
+
       <form onSubmit={handleSubmit} className="stock-form">
         <input
           type="text"
           value={stockName}
           onChange={(event) => setStockName(event.target.value)}
+          placeholder="관심주를 검색해 보세요"
         ></input>
         <button type="submit">검색</button>
       </form>
@@ -109,7 +78,7 @@ const Main = () => {
           );
         })}
       </ul>
-    </div>
+    </main>
   );
 };
 
