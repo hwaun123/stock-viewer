@@ -2,4 +2,4 @@
 
 ## 궁금했던 주식정보, StockViewer에서
 
-(https://stock-viewer-dgsw.netlify.app/)
+[StockView 접속하기](https://stock-viewer-dgsw.netlify.app/)
