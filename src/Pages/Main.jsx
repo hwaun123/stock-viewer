@@ -54,8 +54,8 @@ const Main = () => {
   return (
     <main className="container">
       <header className="stock-header">
-        <h1 className="stock-title">stockview.com</h1>
-        <h2 className="stock-subTitle">궁금했던 주식정보, StockView에서</h2>
+        <h1 className="stock-title">stockviewer.kro.kr</h1>
+        <h2 className="stock-subTitle">궁금했던 주식정보, StockViewer에서</h2>
       </header>
 
       <form onSubmit={handleSubmit} className="stock-form">
